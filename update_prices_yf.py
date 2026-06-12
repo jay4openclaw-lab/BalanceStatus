@@ -49,11 +49,15 @@ else:
 price_df = close_prices.reset_index()
 price_df.columns = ['yf_ticker', 'close_price']
 
-# Merge with holdings to retain original ticker column
+# Merge with holdings to retain original ticker column and compute valuation
 merged = holdings.merge(price_df, on='yf_ticker', how='left')
+# Calculate valuation = close_price * quantity
+merged['valuation'] = merged['close_price'] * merged['quantity']
+# Remove ticker columns (original ticker and Yahoo ticker) as they are not needed in the report
+merged = merged.drop(columns=['ticker', 'yf_ticker'])
 merged['date'] = prev_day
 
-# Output daily report CSV
+# Output daily report CSV (now includes valuation column)
 report_path = os.path.join(os.path.dirname(__file__), f"daily_report_{prev_day.strftime('%Y%m%d')}.csv")
 merged.to_csv(report_path, index=False)
 print(f'Report written to {report_path}')
