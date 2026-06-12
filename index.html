@@ -12,38 +12,56 @@
   th {background:#4a90e2; color:#fff; font-weight:bold;}
   tr:nth-child(even) {background:#f2f2f2;}
   tr:hover {background:#e1f5fe;}
+  .positive {color:#c0392b; font-weight:bold;}
+  .negative {color:#27ae60; font-weight:bold;}
 </style>
 </head>
 <body>
 <h1>포트폴리오 보유 현황 리포트</h1>
 <table>
 <thead><tr>
-<th>quantity</th>
-<th>buy_price</th>
-<th>close_price</th>
-<th>valuation</th>
-<th>date</th>
+<th>계좌</th>
+<th>종목명</th>
+<th>보유수량</th>
+<th>매입가(원)</th>
+<th>어제종가(원)</th>
+<th>평가금액(원)</th>
+<th>수익(원)</th>
+<th>수익률(%)</th>
+<th>날짜</th>
 </tr></thead>
 <tbody>
 <tr>
+<td>4715</td>
+<td>삼성전자</td>
 <td>10</td>
 <td>270,000</td>
-<td>299,000.00</td>
-<td>2,990,000.00</td>
+<td>299,000</td>
+<td>2,990,000</td>
+<td><span class='positive'>290,000</span></td>
+<td><span class='positive'>10.74%</span></td>
 <td>2026-06-11</td>
 </tr>
 <tr>
+<td>4715</td>
+<td>LG화학</td>
 <td>5</td>
 <td>800,000</td>
-<td>316,500.00</td>
-<td>1,582,500.00</td>
+<td>316,500</td>
+<td>1,582,500</td>
+<td><span class='negative'>-2,417,500</span></td>
+<td><span class='negative'>-60.44%</span></td>
 <td>2026-06-11</td>
 </tr>
 <tr>
+<td>4715</td>
+<td>네이버</td>
 <td>20</td>
 <td>380,000</td>
-<td>224,000.00</td>
-<td>4,480,000.00</td>
+<td>224,000</td>
+<td>4,480,000</td>
+<td><span class='negative'>-3,120,000</span></td>
+<td><span class='negative'>-41.05%</span></td>
 <td>2026-06-11</td>
 </tr>
 </tbody>
