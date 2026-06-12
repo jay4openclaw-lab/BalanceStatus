@@ -2,6 +2,7 @@ import os, sys
 import datetime
 import pandas as pd
 import yfinance as yf
+import re
 
 # Determine previous business day (Korean market calendar approximated by BDay)
 prev_day = (pd.Timestamp('today') - pd.tseries.offsets.BDay(1)).date()
@@ -62,15 +63,16 @@ report_path = os.path.join(os.path.dirname(__file__), f"daily_report_{prev_day.s
 merged.to_csv(report_path, index=False)
 print(f'Report written to {report_path}')
 
-# Update index.html with a timestamp (placeholder <!-- UPDATE_TIMESTAMP --> or after </title>)
+# Update index.html with a timestamp (replace any existing timestamp paragraph or insert after </title>)
 index_path = os.path.join(os.path.dirname(__file__), 'index.html')
 if os.path.exists(index_path):
     with open(index_path, 'r', encoding='utf-8') as f:
         html = f.read()
     timestamp_html = f"<p style='text-align:center;color:#555;'>Last updated: {prev_day.strftime('%Y-%m-%d')}</p>"
-    if '<!-- UPDATE_TIMESTAMP -->' in html:
-        html = html.replace('<!-- UPDATE_TIMESTAMP -->', timestamp_html)
-    else:
+    # Replace all existing timestamp paragraphs (if any)
+    html, count = re.subn(r"<p style='text-align:center;color:#555;'>Last updated: .*?</p>", timestamp_html, html)
+    if count == 0:
+        # No existing timestamp, insert after </title>
         html = html.replace('</title>', f"</title>\n{timestamp_html}")
     with open(index_path, 'w', encoding='utf-8') as f:
         f.write(html)
