@@ -66,7 +66,8 @@ report_path = os.path.join(os.path.dirname(__file__), f"daily_report_{prev_day.s
 merged.to_csv(report_path, index=False)
 print(f'Report written to {report_path}')
 
-# Build HTML report (no ticker column, includes valuation, profit, profit_rate)
+# Build HTML report (exclude ticker column for display)
+html_df = merged.drop(columns=['ticker'])
 html_parts = []
 html_parts.append('<!DOCTYPE html>')
 html_parts.append('<html lang="ko">')
@@ -91,7 +92,7 @@ html_parts.append('<h1>포트폴리오 보유 현황 리포트</h1>')
 html_parts.append('<table>')
 # Header row
 html_parts.append('<thead><tr>')
-for col in merged.columns:
+for col in html_df.columns:
     header = col
     if col == 'account':
         header = '계좌'
@@ -109,17 +110,13 @@ for col in merged.columns:
         header = '수익(원)'
     elif col == 'profit_rate':
         header = '수익률(%)'
-    elif col == 'date':
-        header = '날짜'
-    elif col == 'ticker':
-        header = '티커'
     html_parts.append(f'<th>{header}</th>')
 html_parts.append('</tr></thead>')
 # Body rows
 html_parts.append('<tbody>')
-for _, row in merged.iterrows():
+for _, row in html_df.iterrows():
     html_parts.append('<tr>')
-    for col, val in zip(merged.columns, row):
+    for col, val in zip(html_df.columns, row):
         if isinstance(val, (int, float)):
             if col == 'profit_rate':
                 cell = f"{val:,.2f}%"
