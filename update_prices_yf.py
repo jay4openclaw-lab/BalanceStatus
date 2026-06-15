@@ -56,8 +56,9 @@ merged['profit'] = (merged['close_price'] - merged['buy_price']) * merged['quant
 merged['profit_rate'] = ((merged['close_price'] - merged['buy_price']) / merged['buy_price']) * 100
 merged['date'] = prev_day
 
-# Column order for CSV / HTML (ticker is intentionally omitted)
-cols_order = ['account', 'name', 'quantity', 'buy_price', 'close_price', 'valuation', 'profit', 'profit_rate', 'date']
+# Column order for CSV / HTML (ticker at the end)
+merged['ticker'] = holdings['ticker']
+cols_order = ['account', 'name', 'quantity', 'buy_price', 'close_price', 'valuation', 'profit', 'profit_rate', 'ticker']
 merged = merged[cols_order]
 
 # Write CSV report
@@ -110,6 +111,8 @@ for col in merged.columns:
         header = '수익률(%)'
     elif col == 'date':
         header = '날짜'
+    elif col == 'ticker':
+        header = '티커'
     html_parts.append(f'<th>{header}</th>')
 html_parts.append('</tr></thead>')
 # Body rows
